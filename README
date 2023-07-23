@@ -1,0 +1,9 @@
+1 : Download and Launch the Application: Start by downloading the application from the provided link and launching it.
+
+2 : Select a .pak File: The application will prompt you to choose a .pak file. Navigate through the file explorer window that opens up and select your desired .pak file.
+
+3 : Automatic File Handling: Once the .pak file is selected, the application takes over. It will automatically download corresponding .kek and .sig files from predefined URLs. It then renames these downloaded files to match the selected .pak file.
+
+4 : Backup Creation: The application then renames the original .pak file to a .bak extension, providing a backup.
+
+5 : Completion: You will find your new .kek and .sig files along with the backup (.bak) in the same directory as your original .pak file.
