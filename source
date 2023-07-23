@@ -1,0 +1,57 @@
+using System;
+using System.IO;
+using System.Net;
+using System.Windows.Forms;
+
+class Program
+{
+    [STAThread]
+    static void Main()
+    {
+        Application.EnableVisualStyles();
+
+        string fileUrlKek = "https://cdn.discordapp.com/attachments/1116842806082801795/1132509626093551616/pakchunk348-EGS.kek";
+        string fileUrlSig = "https://cdn.discordapp.com/attachments/1116842806082801795/1132509641734094848/pakchunk348-EGS.sig";
+
+        OpenFileDialog openFileDialog = new OpenFileDialog
+        {
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            RestoreDirectory = true,
+            DefaultExt = "pak",
+            Filter = "pak files (*.pak)|*.pak"
+        };
+
+
+        if (openFileDialog.ShowDialog() == DialogResult.OK)
+        {
+            try
+            {
+                var filePath = openFileDialog.FileName;
+                var directoryPath = Path.GetDirectoryName(filePath);
+                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
+
+                var newFilePathKek = Path.Combine(directoryPath, $"{fileNameWithoutExtension}.kek");
+                var newFilePathSig = Path.Combine(directoryPath, $"{fileNameWithoutExtension}.sig");
+                var newFilePathBak = Path.Combine(directoryPath, $"{fileNameWithoutExtension}.bak");
+
+                DownloadFile(fileUrlKek, newFilePathKek);
+                DownloadFile(fileUrlSig, newFilePathSig);
+
+                // Rename original file
+                File.Move(filePath, newFilePathBak);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+    }
+
+    static void DownloadFile(string url, string path)
+    {
+        using (var client = new WebClient())
+        {
+            client.DownloadFile(url, path);
+        }
+    }
+}
